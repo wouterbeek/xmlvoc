@@ -1,28 +1,29 @@
 # Generic prefixes
-prefix dcm: <http://purl.org/dc/dcmitype/>
-prefix dct: <http://purl.org/dc/terms/>
-prefix dom: <http://www.w3.org/DOM/model/def/>
-prefix foaf: <http://xmlns.com/foaf/0.1/>
-prefix owl: <http://www.w3.org/2002/07/owl#>
-prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-prefix respec:   <https://respec.org/model/def/>
-prefix sh: <http://www.w3.org/ns/shacl#>
-prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix dcm:    <http://purl.org/dc/dcmitype/>
+prefix dct:    <http://purl.org/dc/terms/>
+prefix dom:    <http://www.w3.org/DOM/model/def/>
+prefix foaf:   <http://xmlns.com/foaf/0.1/>
+prefix owl:    <http://www.w3.org/2002/07/owl#>
+prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+prefix respec: <https://respec.org/model/def/>
+prefix sh:     <http://www.w3.org/ns/shacl#>
+prefix skos:   <http://www.w3.org/2004/02/skos/core#>
 prefix status: <http://purl.org/adms/status/>
-prefix vann: <http://purl.org/vocab/vann/>
-prefix void: <http://rdfs.org/ns/void#>
-prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix vann:   <http://purl.org/vocab/vann/>
+prefix void:   <http://rdfs.org/ns/void#>
+prefix xsd:    <http://www.w3.org/2001/XMLSchema#>
 
 # XML prefixes
-prefix decl: <http://www.w3.org/XML/id/decl/>
-prefix function: <http://www.w3.org/XML/model/function/>
-prefix rule: <http://www.w3.org/XML/model/rule/>
-prefix section: <http://www.w3.org/XML/id/section/>
-prefix shp: <http://www.w3.org/XML/model/shp/>
-prefix standard: <http://www.w3.org/XML/id/standard/>
-prefix target: <http://www.w3.org/XML/model/target/>
-prefix xml: <http://www.w3.org/XML/model/def/>
+prefix decl:      <http://www.w3.org/XML/id/decl/>
+prefix function:  <http://www.w3.org/XML/model/function/>
+prefix parameter: <http://www.w3.org/XML/model/parameter/>
+prefix rule:      <http://www.w3.org/XML/model/rule/>
+prefix section:   <http://www.w3.org/XML/id/section/>
+prefix shp:       <http://www.w3.org/XML/model/shp/>
+prefix standard:  <http://www.w3.org/XML/id/standard/>
+prefix target:    <http://www.w3.org/XML/model/target/>
+prefix xml:       <http://www.w3.org/XML/model/def/>
 
 xml: {
   xml:
@@ -339,9 +340,9 @@ xml: {
     skos:prefLabel 'the space attribute'@en;
     rdfs:isDefinedBy xml:.
 
-### XML Shapes ###
+  ### XML Shapes ###
 
-shp:SerializableNode
+  shp:SerializableNode
     a sh:NodeShape;
     sh:rule rule:XMLFragmentSerializationAlgorithm;
     sh:target target:SerializableNode;
@@ -404,14 +405,10 @@ construct {
 }''';
     rdfs:isDefinedBy xml:.
 
-function:getElementFragment
+  function:getElementFragment
     a sh:SPARQLFunction ;
     rdfs:comment "Returns a XML fragment for a XML element in a XML document." ;
-    sh:parameter [
-        sh:path function:elementXML ;
-        sh:datatype xsd:anyURI ;
-        sh:description "A xml element in a XML document." ;
-    ] ;
+    sh:parameter parameter:getElementFragment_elementXML;
     sh:returnType xsd:string ;
     sh:select """
 
@@ -444,14 +441,17 @@ function:getElementFragment
 
 """ .
 
-function:getTextFragment
+  parameter:getElementFragment_elementXML
+    a sh:Parameter;
+    sh:datatype xsd:anyURI ;
+    sh:description "A xml element in a XML document." ;
+    sh:order 1.0;
+    sh:path parameter:elementXML.
+
+  function:getTextFragment
     a sh:SPARQLFunction ;
     rdfs:comment "Returns a XML fragment for a XML text node in a XML document." ;
-    sh:parameter [
-        sh:path function:text ;
-        sh:datatype xsd:anyURI ;
-        sh:description "A XML text node in a XML document." ;
-    ] ;
+    sh:parameter parameter:getTextFragment_text;
     sh:returnType xsd:string ;
     sh:select """
 
@@ -470,14 +470,17 @@ function:getTextFragment
 
 """ .
 
-function:getCommentFragment
+  parameter:getTextFragment_text
+    a sh:Parameter;
+    sh:datatype xsd:anyURI ;
+    sh:description "A XML text node in a XML document." ;
+    sh:order 1.0;
+    sh:path parameter:text.
+
+  function:getCommentFragment
     a sh:SPARQLFunction ;
     rdfs:comment "Returns a XML fragment for a XML comment in a XML document." ;
-    sh:parameter [
-        sh:path function:comment ;
-        sh:datatype xsd:anyURI ;
-        sh:description "A XML comment in a XML document." ;
-    ] ;
+    sh:parameter parameter:getCommentFragment_comment;
     sh:returnType xsd:string ;
     sh:select """
 
@@ -492,14 +495,17 @@ function:getCommentFragment
 
 """ .
 
-function:getCDATASectionFragment
+  parameter:getCommentFragment_comment
+    a sh:Parameter;
+    sh:datatype xsd:anyURI ;
+    sh:description "A XML comment in a XML document." ;
+    sh:order 1.0;
+    sh:path parameter:comment.
+
+  function:getCDATASectionFragment
     a sh:SPARQLFunction ;
     rdfs:comment "Returns a XML fragment for a XML CDATA Section in a XML document." ;
-    sh:parameter [
-        sh:path function:CDATASection ;
-        sh:datatype xsd:anyURI ;
-        sh:description "A XML CDATA Section in a XML document." ;
-    ] ;
+    sh:parameter parameter:getCDATASectionFragment_CDATASection;
     sh:returnType xsd:string ;
     sh:select """
 
@@ -514,14 +520,17 @@ function:getCDATASectionFragment
 
 """ .
 
-function:getProcessingInstructionFragment
+  parameter:getCDATASectionFragment_CDATASection
+    a sh:Parameter;
+    sh:datatype xsd:anyURI ;
+    sh:description "A XML CDATA Section in a XML document." ;
+    sh:order 1.0;
+    sh:path parameter:CDATASection.
+
+  function:getProcessingInstructionFragment
     a sh:SPARQLFunction ;
     rdfs:processingInstruction "Returns a XML fragment for a XML processing instruction in a XML document." ;
-    sh:parameter [
-        sh:path function:processingInstruction ;
-        sh:datatype xsd:anyURI ;
-        sh:description "A XML processing instruction in a XML document." ;
-    ] ;
+    sh:parameter parameter:getProcessingInstructionFragment_processingInstruction;
     sh:returnType xsd:string ;
     sh:select """
 
@@ -536,14 +545,17 @@ function:getProcessingInstructionFragment
 
 """ .
 
-function:getDocumentTypeFragment
+  parameter:getProcessingInstructionFragment_processingInstruction
+    a sh:Parameter;
+    sh:datatype xsd:anyURI ;
+    sh:description "A XML processing instruction in a XML document." ;
+    sh:order 1.0;
+    sh:path parameter:processingInstruction.
+
+  function:getDocumentTypeFragment
     a sh:SPARQLFunction ;
     rdfs:comment "Returns a XML fragment for a XML DocumentType in a XML document." ;
-    sh:parameter [
-        sh:path function:doctype ;
-        sh:datatype xsd:anyURI ;
-        sh:description "An XML DocumentType in a XML document." ;
-    ] ;
+    sh:parameter parameter:getDocumentTypeFragment_doctype;
     sh:returnType xsd:string ;
     sh:select """
 
@@ -559,14 +571,17 @@ function:getDocumentTypeFragment
 
 """ .
 
-function:getDocumentFragment
+  parameter:getDocumentTypeFragment_doctype
+    a sh:Parameter;
+    sh:datatype xsd:anyURI ;
+    sh:description "An XML DocumentType in a XML document." ;
+    sh:order 1.0;
+    sh:path parameter:doctype.
+
+  function:getDocumentFragment
     a sh:SPARQLFunction ;
     rdfs:comment "Returns a XML fragment for a XML Document" ;
-    sh:parameter [
-        sh:path function:xmlDocument ;
-        sh:datatype xsd:anyURI ;
-        sh:description "An XML document." ;
-    ] ;
+    sh:parameter parameter:getDocumentFragment_xmlDocument;
     sh:returnType xsd:string ;
     sh:select """
 
@@ -581,14 +596,17 @@ function:getDocumentFragment
 
 """ .
 
-function:getChildNodeFragment
+  parameter:getDocumentFragment_xmlDocument
+    a sh:Parameter;
+    sh:datatype xsd:anyURI ;
+    sh:description "An XML document." ;
+    sh:order 1.0;
+    sh:path parameter:xmlDocument.
+
+  function:getChildNodeFragment
     a sh:SPARQLFunction ;
     rdfs:comment "Returns a XML fragment of child nodes for a node in an XML Document" ;
-    sh:parameter [
-        sh:path function:parentNode ;
-        sh:datatype xsd:anyURI ;
-        sh:description "A node in an XML document." ;
-    ] ;
+    sh:parameter parameter:getChildNodeFragment_parentNode;
     sh:returnType xsd:string ;
     sh:select """
 
@@ -614,21 +632,19 @@ function:getChildNodeFragment
     }
 """ .
 
-function:getElementAttribute
+  parameter:getChildNodeFragment_parentNode
+    a sh:Parameter;
+    sh:datatype xsd:anyURI ;
+    sh:description "A node in an XML document." ;
+    sh:order 1.0;
+    sh:path parameter:parentNode.
+
+  function:getElementAttribute
     a sh:SPARQLFunction ;
     rdfs:comment "Returns an XML attribute of an XML element" ;
-    sh:parameter [
-        sh:path function:elementXML ;
-        sh:datatype xsd:anyURI ;
-        sh:description "An XML element in an XML document." ;
-        sh:order 1;
-    ] ;
-     sh:parameter [
-        sh:path function:ontology ;
-        sh:datatype xsd:anyURI ;
-        sh:description "A ontology that defines an element class." ;
-        sh:order 2;
-    ] ;
+    sh:parameter
+      parameter:getElementAttribute_elementXML,
+      parameter:getElementAttribute_ontology;
     sh:returnType xsd:string ;
     sh:select """
 
@@ -662,5 +678,19 @@ function:getElementAttribute
     bind(if(bound(?attributesFragment),?attributesFragment,'') as ?result)
     }
 """ .
+
+  parameter:getElementAttribute_elementXML
+    a sh:Parameter;
+    sh:datatype xsd:anyURI ;
+    sh:description "An XML element in an XML document." ;
+    sh:order 1.0;
+    sh:path parameter:elementXML.
+
+  parameter:getElementAttribute_ontology
+    a sh:Parameter;
+    sh:datatype xsd:anyURI ;
+    sh:description "A ontology that defines an element class." ;
+    sh:order 2.0;
+    sh:path parameter:ontology.
 
 }

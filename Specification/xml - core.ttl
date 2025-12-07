@@ -22,7 +22,7 @@ prefix section: <http://www.w3.org/XML/id/section/>
 prefix shp: <http://www.w3.org/XML/model/shp/>
 prefix standard: <http://www.w3.org/XML/id/standard/>
 prefix target: <http://www.w3.org/XML/model/target/>
-prefix xml: <http://www.w3.org/XML/model/def/> 
+prefix xml: <http://www.w3.org/XML/model/def/>
 
 xml: {
   xml:
@@ -39,15 +39,15 @@ xml: {
     dct:subject 'xml'@en;
     dct:title 'XML Ontology'@en;
     dct:source <https://github.com/floresbakker/xmlvoc>;
-    
+
     dct:abstract """The XML Core Ontology provides a formal representation of the Extensible Markup Language (XML) Version 1.0 (Fifth Edition). It defines classes and properties to describe the structure and semantics of XML documents, elements, attributes, comments, processing instructions, CDATA sections, and text elements. In addition, it includes SHACL shapes with algorithms for XML code serialization. This enables the generation of XML from RDF representations and the parsing of XML into RDF, offering comprehensive control and detailed description of XML content. This vocabulary enhances data management and integration, bridging XML and semantic technologies. The XML Core Ontology supports the use of domain specific extensions that are XML-based, like SVG, Archimate, XBRL and more. """@en;
-    
-    dct:description """The XML Ontology formalizes the Extensible Markup Language (XML) Version 1.0 (Fifth Edition), offering a structured representation of its components and features. It defines classes to represent XML elements, datatype properties to represent XML attributes, and a small number of SHACL shapes with algorithms for the serialization of XML code. Central to this ontology is the class 'xml:Element', which represents an XML DOM element and is a subclass of 'dom:Element', the class encompassing all DOM elements. Any specific XML element from a domain specific extension of XML, like 'svg:Circle' in the SVG vocabulary, is a subclass of 'xml:Element'. Another fundamental component of this ontology is the 'xml:attribute' datatype property. Any attribute in XML, such as 'xml:id' or 'xml:class', is a subproperty of 'xml:attribute' and an individual of the class xml:Attribute. XML attributes can be standard attributes defined in the XML specification or custom-defined attributes. Additionally, there is the class of 'xml:Text', where all instantiations contain an 'xml:fragment' property relation with an actual textual string, as exemplified in the triples 'doc:1.0 a xml:Text; xml:fragment "Hello, World!".'. Together, these classes and attributes can represent any XML document in RDF. To serialize this XML document into actual XML code, there is the SHACL node shape shp:SerializableNode that processes the RDF structure and transforms it into XML code. The logic behind this shape is that the XML code can be serialized from the leaves of the tree upwards to the root of the XML document. This means that any arbitrary element in the DOM tree of an XML document can only be serialized to XML code when the underlying child elements of that element have already been serialized, including the XML code of attributes and their values. The outer edges of the tree consist of elements that do not contain child elements and can therefore be transformed into XML code immediately without needing any context, along with XML text elements that already contain XML fragments with textual strings. From the outer edges, the node shape shp:SerializableNode works its way up the tree until all XML elements have received an XML fragment, allowing the XML document to be created based on the 'xml:fragment' contained in the root element of that document. The processing halts the moment the document itself has an 'xml:fragment' attribute."""@en; 
-    
+
+    dct:description """The XML Ontology formalizes the Extensible Markup Language (XML) Version 1.0 (Fifth Edition), offering a structured representation of its components and features. It defines classes to represent XML elements, datatype properties to represent XML attributes, and a small number of SHACL shapes with algorithms for the serialization of XML code. Central to this ontology is the class 'xml:Element', which represents an XML DOM element and is a subclass of 'dom:Element', the class encompassing all DOM elements. Any specific XML element from a domain specific extension of XML, like 'svg:Circle' in the SVG vocabulary, is a subclass of 'xml:Element'. Another fundamental component of this ontology is the 'xml:attribute' datatype property. Any attribute in XML, such as 'xml:id' or 'xml:class', is a subproperty of 'xml:attribute' and an individual of the class xml:Attribute. XML attributes can be standard attributes defined in the XML specification or custom-defined attributes. Additionally, there is the class of 'xml:Text', where all instantiations contain an 'xml:fragment' property relation with an actual textual string, as exemplified in the triples 'doc:1.0 a xml:Text; xml:fragment "Hello, World!".'. Together, these classes and attributes can represent any XML document in RDF. To serialize this XML document into actual XML code, there is the SHACL node shape shp:SerializableNode that processes the RDF structure and transforms it into XML code. The logic behind this shape is that the XML code can be serialized from the leaves of the tree upwards to the root of the XML document. This means that any arbitrary element in the DOM tree of an XML document can only be serialized to XML code when the underlying child elements of that element have already been serialized, including the XML code of attributes and their values. The outer edges of the tree consist of elements that do not contain child elements and can therefore be transformed into XML code immediately without needing any context, along with XML text elements that already contain XML fragments with textual strings. From the outer edges, the node shape shp:SerializableNode works its way up the tree until all XML elements have received an XML fragment, allowing the XML document to be created based on the 'xml:fragment' contained in the root element of that document. The processing halts the moment the document itself has an 'xml:fragment' attribute."""@en;
+
     respec:introduction '''In today’s rapidly evolving information landscape, organizations face the critical challenge of effectively managing and leveraging vast amounts of data. The necessity for robust information products and agile information processing is ever-present, continually adapting across various sectors. In this dynamic context, the creation, validation, and utilization of information products stand as crucial elements for informed decision-making and operational efficiency. The ability to swiftly respond to unexpected challenges or capitalize on new opportunities relies on having the right answers to previously unasked questions.
-    
+
     How can organizations successfully navigate this data-intensive environment? A significant part of the solution lies in the capability to exercise complete control over the generation, modification, validation, and reuse of information products. This requires a profound understanding of how to construct and deconstruct any arbitrary information product, examining it from its fundamental components to its broader, strategic implications.
-    
+
     To address this necessity, we have developed the RDF-based Semantic XML Core Vocabulary - a transformative framework designed to facilitate the management of various information artifacts built upon XML.'''@en;
 
     respec:background '''In an era where information flows ceaselessly, organizations must confront multiple pressing challenges regarding velocity, variety, insightfulness, adaptability, and validity. The speed at which information is generated, transformed, and consumed is unprecedented. Keeping pace with this velocity is essential for timely decision-making. Information is available in diverse formats, ranging from structured data to unstructured text and multimedia. Effective management necessitates the ability to handle this rich variety seamlessly. Information is not merely data; it embodies insights, functionality, and knowledge. Extracting meaningful insights and practical functionality is vital for organizational success. Organizations must be agile in adapting information products to swiftly address emerging challenges and opportunities. Finally, ensuring the correctness, compliance, and reliability of information is fundamental to trustworthy decision-making and operations.'''@en;
@@ -71,11 +71,11 @@ xml: {
       skos:;
     sh:declare
       decl:dom,
-      decl:function, 
+      decl:function,
       decl:xml,
       decl:rdf,
       decl:rdfs,
-      decl:xsd;      
+      decl:xsd;
     owl:versionInfo '0.1.0';
     vann:preferredNamespacePrefix 'xml';
     vann:preferredNamespaceUri 'http://www.w3.org/XML/model/def/';
@@ -88,7 +88,7 @@ xml: {
 
   decl:function
     sh:prefix "function";
-    sh:namespace "http://www.w3.org/XML/model/function/"^^xsd:anyURI.    
+    sh:namespace "http://www.w3.org/XML/model/function/"^^xsd:anyURI.
 
   decl:xml
     sh:prefix "xml";
@@ -180,7 +180,7 @@ xml: {
     skos:prefLabel 'the DOCTYPE'@en;
     skos:example'<!DOCTYPE xml>';
     rdfs:isDefinedBy xml:.
-    
+
   xml:Element
     a owl:Class;
     dct:conformsTo section:XML-Spec;
@@ -192,7 +192,7 @@ xml: {
   xml:Attribute
     a owl:Class;
     dct:conformsTo section:XML-Spec;
-    rdfs:subClassOf dom:Attribute;    
+    rdfs:subClassOf dom:Attribute;
     skos:definition 'An XML attribute is a name-value pair associated with an XML element.'@en;
     skos:prefLabel 'XML Attribute'@en;
     rdfs:isDefinedBy xml:.
@@ -200,7 +200,7 @@ xml: {
   xml:Comment
     a owl:Class;
     dct:conformsTo section:XML-Spec;
-    rdfs:subClassOf dom:Comment;    
+    rdfs:subClassOf dom:Comment;
     skos:definition 'An XML comment is a piece of text within an XML document that is not interpreted as markup by the XML processor.'@en;
     skos:prefLabel 'XML Comment'@en;
     rdfs:isDefinedBy xml:.
@@ -216,7 +216,7 @@ xml: {
   xml:CDATASection
     a owl:Class;
     dct:conformsTo section:XML-Spec;
-    rdfs:subClassOf dom:CDATASection;    
+    rdfs:subClassOf dom:CDATASection;
     skos:definition 'A CDATA section in an XML document is used to include blocks of text that should not be interpreted as markup by the XML processor.'@en;
     skos:prefLabel 'XML CDATA Section'@en;
     rdfs:isDefinedBy xml:.
@@ -227,7 +227,7 @@ xml: {
     skos:definition 'A DOM node in a XML document that has textual content and that does not contain any XML vocabulary.'@en;
     skos:prefLabel 'text'@en;
     rdfs:isDefinedBy xml:.
-    
+
 ### XML properties ###
 
   xml:documentTypeName
@@ -237,7 +237,7 @@ xml: {
     skos:definition "Specifies the doctype name of a doctype declaration in a XML document."@en;
     skos:prefLabel 'has document type name'@en;
     rdfs:isDefinedBy xml:.
- 
+
   xml:attribute
     a owl:DatatypeProperty,
       xml:Attribute;
@@ -283,7 +283,7 @@ xml: {
     skos:definition 'Property that links the key name of a specific attribute to a XML attribute.'@en;
     skos:prefLabel 'key property'@en;
     rdfs:isDefinedBy xml:.
-    
+
   xml:id
     a owl:DatatypeProperty,
     xml:Attribute;
@@ -355,16 +355,16 @@ shp:SerializableNode
     sh:select '''
 select $this {
 
-  # Select all DOM nodes... 
+  # Select all DOM nodes...
   $this a/rdfs:subClassOf* dom:DocumentTreeNode.
-  
+
   # ...that do not yet have an xml fragment.
   filter not exists { $this xml:fragment []. }
-  
+
   # ...but whose child nodes (if any) all have an xml fragment
   filter not exists {
     $this ?member ?child.
-    filter(strstarts(str(?member),concat(str(rdf:),'_')))               
+    filter(strstarts(str(?member),concat(str(rdf:),'_')))
     filter not exists { ?child xml:fragment []. }
     ?child a/rdfs:subClassOf* dom:DocumentTreeNode.
   }
@@ -381,7 +381,7 @@ construct {
 
   # Assert the new XML fragment for this node in the XML document
   $this xml:fragment ?fragment.
-  
+
 } where {
 
   # Establish the class of the node in the XML document
@@ -389,15 +389,15 @@ construct {
   ?classXML rdfs:isDefinedBy xml:.
 
   # Build the XML fragment for the node in the XML document depending on its class
-  bind(if(?classXML = xml:Element,                function:getElementFragment($this), 
-       if(?classXML = xml:Text ,                  function:getTextFragment($this), 
-       if(?classXML = xml:Comment,                function:getCommentFragment($this), 
-       if(?classXML = xml:CDATASection,           function:getCDATASectionFragment($this), 
-       if(?classXML = xml:ProcessingInstruction,  function:getProcessingInstructionFragment($this), 
-       if(?classXML = xml:DocumentType,           function:getDocumentTypeFragment($this), 
+  bind(if(?classXML = xml:Element,                function:getElementFragment($this),
+       if(?classXML = xml:Text ,                  function:getTextFragment($this),
+       if(?classXML = xml:Comment,                function:getCommentFragment($this),
+       if(?classXML = xml:CDATASection,           function:getCDATASectionFragment($this),
+       if(?classXML = xml:ProcessingInstruction,  function:getProcessingInstructionFragment($this),
+       if(?classXML = xml:DocumentType,           function:getDocumentTypeFragment($this),
        if(?classXML = xml:Document,               function:getChildNodeFragment($this), ?unboundDummy)))))))
   as ?fragmentString)
-  
+
   # Convert result from string to rdf:XML
   bind(strdt(str(?fragmentString), rdf:XML) as ?fragment)
 
@@ -415,33 +415,33 @@ function:getElementFragment
     sh:returnType xsd:string ;
     sh:select """
 
-    prefix function: <http://www.w3.org/XML/model/function/>  
+    prefix function: <http://www.w3.org/XML/model/function/>
     prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     prefix vann: <http://purl.org/vocab/vann/>
     prefix xml: <http://www.w3.org/XML/model/def/>
-    
+
     select ?result where {
-    
+
     # Retrieve the tag name & namespace of the element.
     $elementXML a ?class.
     ?class xml:tag ?tag;
            rdfs:isDefinedBy ?ontology.
-      
+
     # Get the XML attributes for the element, if there are any.
     bind(function:getElementAttribute($elementXML, ?ontology) as ?attributes)
- 
+
     # Get the XML fragments of child nodes for the element, if there are any.
     bind(function:getChildNodeFragment($elementXML) as ?childFragments)
-    
+
     # Build the XML fragment for this XML element, by combining everything retrieved above.
     bind(
     concat(
       '<',?tag,if(?attributes='','',concat(' ',?attributes)),'>',
       if(?childFragments='',concat('</',?tag,'>'),concat(?childFragments,'</',?tag,'>'))) as ?fragment)
-    bind(if(bound(?fragment),?fragment,'') as ?result)  
-      
+    bind(if(bound(?fragment),?fragment,'') as ?result)
+
 }
-	
+
 """ .
 
 function:getTextFragment
@@ -454,20 +454,20 @@ function:getTextFragment
     ] ;
     sh:returnType xsd:string ;
     sh:select """
-    
+
     prefix dom: <https://data.rijksfinancien.nl/dom/model/def/>
-    prefix xsd: <http://www.w3.org/2001/XMLSchema#>     
-    
+    prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+
     select ?result where {
-    
+
     # Text is stored in de data attribute of DOM text nodes
     $text dom:data ?data.
-    
+
     # Establish the XML fragment for this XML text node
     bind(strdt(?data,xsd:string) as ?fragment)
-    bind(if(bound(?fragment),?fragment,'') as ?result)  
+    bind(if(bound(?fragment),?fragment,'') as ?result)
 }
-	
+
 """ .
 
 function:getCommentFragment
@@ -482,14 +482,14 @@ function:getCommentFragment
     sh:select """
 
     prefix function: <http://www.w3.org/XML/model/function/>
-    
+
     select ?result where {
-     
+
     # Establish the XML fragment for this XML comment
     bind(concat('<!--',function:getChildNodeFragment($comment),'-->') as ?fragment)
-    bind(if(bound(?fragment),?fragment,'') as ?result)  
+    bind(if(bound(?fragment),?fragment,'') as ?result)
 }
-	
+
 """ .
 
 function:getCDATASectionFragment
@@ -504,14 +504,14 @@ function:getCDATASectionFragment
     sh:select """
 
     prefix function: <http://www.w3.org/XML/model/function/>
-    
+
     select ?result where {
-     
+
     # Establish the XML fragment for this XML CDATA
     bind(concat('<![CDATA[',function:getChildNodeFragment($CDATASection),']]>') as ?fragment)
-    bind(if(bound(?fragment),?fragment,'') as ?result)  
+    bind(if(bound(?fragment),?fragment,'') as ?result)
 }
-	
+
 """ .
 
 function:getProcessingInstructionFragment
@@ -525,15 +525,15 @@ function:getProcessingInstructionFragment
     sh:returnType xsd:string ;
     sh:select """
 
-    prefix function: <http://www.w3.org/XML/model/function/>       
-    
+    prefix function: <http://www.w3.org/XML/model/function/>
+
     select ?result where {
 
     # Establish the XML fragment for this XML processingInstruction
     bind(concat('<?',function:getChildNodeFragment($processingInstruction),'>') as ?fragment)
-    bind(if(bound(?fragment),?fragment,'') as ?result)    
+    bind(if(bound(?fragment),?fragment,'') as ?result)
 }
-	
+
 """ .
 
 function:getDocumentTypeFragment
@@ -546,19 +546,19 @@ function:getDocumentTypeFragment
     ] ;
     sh:returnType xsd:string ;
     sh:select """
-    
+
     prefix xml: <http://www.w3.org/XML/model/def/>
-    
+
     select ?result where {
-    
+
     # Establish the doctype name for this Document Type.
     $doctype xml:documentTypeName ?name.
     bind(concat('<!DOCTYPE ',str(?name),'>') as ?fragment)
-    bind(if(bound(?fragment),?fragment,'') as ?result)    
+    bind(if(bound(?fragment),?fragment,'') as ?result)
 }
-	
+
 """ .
-	
+
 function:getDocumentFragment
     a sh:SPARQLFunction ;
     rdfs:comment "Returns a XML fragment for a XML Document" ;
@@ -570,15 +570,15 @@ function:getDocumentFragment
     sh:returnType xsd:string ;
     sh:select """
 
-    prefix function: <http://www.w3.org/XML/model/function/>    
-    
+    prefix function: <http://www.w3.org/XML/model/function/>
+
     select ?result where {
-    
+
     # Establish the XML fragment of the XML document by retrieving the XML fragments of all child nodes.
     bind(function:getChildNodeFragment($xmlDocument) as ?result)
-    
+
 }
-	
+
 """ .
 
 function:getChildNodeFragment
@@ -591,13 +591,13 @@ function:getChildNodeFragment
     ] ;
     sh:returnType xsd:string ;
     sh:select """
-    
+
     prefix xml: <http://www.w3.org/XML/model/def/>
   	prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    prefix xsd: <http://www.w3.org/2001/XMLSchema#> 
-    
+    prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+
     select ?result where {
-    
+
     { # Get the XML fragments of child nodes, if there are any.
     select $parentNode (group_concat(str(?childFragment);separator='') as ?childFragments) {
       {
@@ -610,7 +610,7 @@ function:getChildNodeFragment
        }
       } group by $parentNode
      }
-    bind(if(bound(?childFragments),?childFragments,'') as ?result) 
+    bind(if(bound(?childFragments),?childFragments,'') as ?result)
     }
 """ .
 
@@ -628,38 +628,38 @@ function:getElementAttribute
         sh:datatype xsd:anyURI ;
         sh:description "A ontology that defines an element class." ;
         sh:order 2;
-    ] ;   
+    ] ;
     sh:returnType xsd:string ;
     sh:select """
 
-    prefix dom: <http://www.w3.org/DOM/model/def/>    
-    prefix function: <http://www.w3.org/XML/model/function/>    
+    prefix dom: <http://www.w3.org/DOM/model/def/>
+    prefix function: <http://www.w3.org/XML/model/function/>
     prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     prefix vann: <http://purl.org/vocab/vann/>
     prefix xml: <http://www.w3.org/XML/model/def/>
-    
+
     select ?result where {
-    optional 
-    { 
+    optional
+    {
     # Get the XML attributes for this element, if there are any.
-    select $elementXML (group_concat(distinct ?attributeFragment) as ?attributesFragment) {  
- 
+    select $elementXML (group_concat(distinct ?attributeFragment) as ?attributesFragment) {
+
       $elementXML ?attribute ?value.
       ?attribute a/rdfs:subClassOf* dom:Attribute;
                  ?localName ?key;
-                 rdfs:isDefinedBy ?ontologyAttribute.   
+                 rdfs:isDefinedBy ?ontologyAttribute.
       ?ontologyAttribute vann:preferredNamespacePrefix ?prefix.
-      ?localName rdfs:subPropertyOf dom:localName. 
-         
-      # An attribute’s qualified name is its local name if its namespace prefix is null, and its namespace prefix, followed by ":", followed by its local name, otherwise. The namespace prefix is null when the attribute resides in the same namespace as the element. An exception is made for the xml:xmlns attribute.         
+      ?localName rdfs:subPropertyOf dom:localName.
+
+      # An attribute’s qualified name is its local name if its namespace prefix is null, and its namespace prefix, followed by ":", followed by its local name, otherwise. The namespace prefix is null when the attribute resides in the same namespace as the element. An exception is made for the xml:xmlns attribute.
       bind(if(?ontologyAttribute = $ontology || ?attribute = xml:xmlns,?key,concat(?prefix,":",?key)) as ?qualifiedName)
-      
+
       # Establish a key - value pair for the attribute
       bind(concat(?qualifiedName,'="',str(?value),'"') as ?attributeFragment)
       } group by $elementXML
      }
-    # Establish result     
-    bind(if(bound(?attributesFragment),?attributesFragment,'') as ?result)     
+    # Establish result
+    bind(if(bound(?attributesFragment),?attributesFragment,'') as ?result)
     }
 """ .
 

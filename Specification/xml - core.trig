@@ -274,7 +274,7 @@ xml: {
             xml:Element
             xml:Text
             ) ];
-    rdfs:range rdf:XML;
+    rdfs:range rdf:XMLLiteral;
     skos:definition "Property that links a node in a XML-document with its XML fragment."@en;
     skos:prefLabel "fragment property"@en;
     rdfs:isDefinedBy xml:.
@@ -397,8 +397,8 @@ xml: {
        if(?classXML = xml:Document,               function:getChildNodeFragment($this), ?unboundDummy)))))))
   as ?fragmentString)
 
-  # Convert result from string to rdf:XML
-  bind(strdt(str(?fragmentString), rdf:XML) as ?fragment)
+  # Convert result from string to rdf:XMLLiteral.
+  bind(strdt(?fragmentString, rdf:XMLLiteral) as ?fragment)
 }''';
     rdfs:isDefinedBy xml:.
 

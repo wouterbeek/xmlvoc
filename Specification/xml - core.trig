@@ -404,6 +404,7 @@ xml: {
   function:getElementFragment
     a sh:SPARQLFunction;
     rdfs:comment "Returns a XML fragment for a XML element in a XML document."@en;
+    rdfs:isDefinedBy xml:;
     sh:parameter parameter:getElementFragment_elementXML;
     sh:prefixes xml:;
     sh:returnType xsd:string;
@@ -437,6 +438,7 @@ xml: {
   function:getTextFragment
     a sh:SPARQLFunction;
     rdfs:comment "Returns a XML fragment for a XML text node in a XML document."@en;
+    rdfs:isDefinedBy xml:;
     sh:parameter parameter:getTextFragment_text;
     sh:prefixes xml:;
     sh:returnType xsd:string;
@@ -459,6 +461,7 @@ xml: {
   function:getCommentFragment
     a sh:SPARQLFunction;
     rdfs:comment "Returns a XML fragment for a XML comment in a XML document."@en;
+    rdfs:isDefinedBy xml:;
     sh:parameter parameter:getCommentFragment_comment;
     sh:prefixes xml:;
     sh:returnType xsd:string;
@@ -478,6 +481,7 @@ xml: {
   function:getCDATASectionFragment
     a sh:SPARQLFunction;
     rdfs:comment "Returns a XML fragment for a XML CDATA Section in a XML document."@en;
+    rdfs:isDefinedBy xml:;
     sh:parameter parameter:getCDATASectionFragment_CDATASection;
     sh:prefixes xml:;
     sh:returnType xsd:string;
@@ -496,7 +500,8 @@ xml: {
 
   function:getProcessingInstructionFragment
     a sh:SPARQLFunction;
-    rdfs:processingInstruction "Returns a XML fragment for a XML processing instruction in a XML document."@en;
+    rdfs:comment "Returns a XML fragment for a XML processing instruction in a XML document."@en;
+    rdfs:isDefinedBy xml:;
     sh:parameter parameter:getProcessingInstructionFragment_processingInstruction;
     sh:prefixes xml:;
     sh:returnType xsd:string;
@@ -516,6 +521,7 @@ xml: {
   function:getDocumentTypeFragment
     a sh:SPARQLFunction;
     rdfs:comment "Returns a XML fragment for a XML DocumentType in a XML document."@en;
+    rdfs:isDefinedBy xml:;
     sh:parameter parameter:getDocumentTypeFragment_doctype;
     sh:prefixes xml:;
     sh:returnType xsd:string;
@@ -536,6 +542,7 @@ xml: {
   function:getDocumentFragment
     a sh:SPARQLFunction;
     rdfs:comment "Returns a XML fragment for a XML Document"@en;
+    rdfs:isDefinedBy xml:;
     sh:parameter parameter:getDocumentFragment_xmlDocument;
     sh:prefixes xml:;
     sh:returnType xsd:string;
@@ -554,6 +561,7 @@ xml: {
   function:getChildNodeFragment
     a sh:SPARQLFunction;
     rdfs:comment "Returns a XML fragment of child nodes for a node in an XML Document"@en;
+    rdfs:isDefinedBy xml:;
     sh:parameter parameter:getChildNodeFragment_parentNode;
     sh:prefixes xml:;
     sh:returnType xsd:string;
@@ -585,6 +593,7 @@ xml: {
   function:getElementAttribute
     a sh:SPARQLFunction;
     rdfs:comment "Returns an XML attribute of an XML element"@en;
+    rdfs:isDefinedBy xml:;
     sh:parameter
       parameter:getElementAttribute_elementXML,
       parameter:getElementAttribute_ontology;

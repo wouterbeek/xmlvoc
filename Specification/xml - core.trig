@@ -575,7 +575,7 @@ xml: {
     sh:prefixes xml:;
     sh:returnType xsd:string;
     sh:select '''select ?result where {
-  {
+  optional {
     # Get the XML fragments of child nodes, if there are any.
     select $parentNode (group_concat(str(?childFragment);separator='') as ?childFragments) {
       {

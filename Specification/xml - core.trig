@@ -83,32 +83,32 @@ xml: {
     void:uriSpace 'http://www.w3.org/XML/model/def/'^^xsd:anyURI.
 
   decl:dom
-    sh:prefix "dom";
-    sh:namespace "http://www.w3.org/DOM/model/def/"^^xsd:anyURI.
+    sh:prefix 'dom';
+    sh:namespace 'http://www.w3.org/DOM/model/def/'^^xsd:anyURI.
 
   decl:function
-    sh:prefix "function";
-    sh:namespace "http://www.w3.org/XML/model/function/"^^xsd:anyURI.
+    sh:prefix 'function';
+    sh:namespace 'http://www.w3.org/XML/model/function/'^^xsd:anyURI.
 
   decl:xml
-    sh:prefix "xml";
-    sh:namespace "http://www.w3.org/XML/model/def/"^^xsd:anyURI.
+    sh:prefix 'xml';
+    sh:namespace 'http://www.w3.org/XML/model/def/'^^xsd:anyURI.
 
   decl:rdf
-    sh:prefix "rdf";
-    sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#"^^xsd:anyURI.
+    sh:prefix 'rdf';
+    sh:namespace 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'^^xsd:anyURI.
 
   decl:rdfs
-    sh:prefix "rdfs";
-    sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI.
+    sh:prefix 'rdfs';
+    sh:namespace 'http://www.w3.org/2000/01/rdf-schema#'^^xsd:anyURI.
 
   decl:vann
-    sh:prefix "vann";
-    sh:namespace "http://purl.org/vocab/vann/"^^xsd:anyURI.
+    sh:prefix 'vann';
+    sh:namespace 'http://purl.org/vocab/vann/'^^xsd:anyURI.
 
   decl:xsd
-    sh:prefix "xsd";
-    sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI.
+    sh:prefix 'xsd';
+    sh:namespace 'http://www.w3.org/2001/XMLSchema#'^^xsd:anyURI.
 
   standard:xml
     a dct:Standard;
@@ -272,8 +272,7 @@ xml: {
             xml:Document
             xml:DocumentType
             xml:Element
-            xml:Text
-            ) ];
+            xml:Text ) ];
     rdfs:range rdf:XMLLiteral;
     skos:definition "Property that links a node in a XML-document with its XML fragment."@en;
     skos:prefLabel "fragment property"@en;
@@ -358,16 +357,16 @@ xml: {
     rdfs:label "target serializable node"@en;
     sh:prefixes xml:;
     sh:select '''select $this {
-  # Select all DOM nodes...
+  # Select all DOM nodes…
   $this a/rdfs:subClassOf* dom:DocumentTreeNode.
 
-  #...that do not yet have an xml fragment.
+  #…that do not yet have an XML fragment.
   filter not exists { $this xml:fragment []. }
 
-  #...but whose child nodes (if any) all have an xml fragment
+  #…but whose child nodes (if any) all have an xml fragment
   filter not exists {
     $this ?member ?child.
-    filter(strstarts(str(?member),concat(str(rdf:),'_')))
+    filter(strstarts(str(?member), concat(str(rdf:), '_')))
     filter not exists { ?child xml:fragment []. }
     ?child a/rdfs:subClassOf* dom:DocumentTreeNode.
   }
@@ -380,7 +379,7 @@ xml: {
     skos:prefLabel "XML fragment serialization algorithm"@en;
     sh:prefixes xml:;
     sh:construct '''construct {
-  # Assert the new XML fragment for this node in the XML document
+  # Assert the new XML fragment for this node in the XML document.
   $this xml:fragment ?fragment.
 } where {
   # Establish the class of the node in the XML document
@@ -388,17 +387,16 @@ xml: {
   ?classXML rdfs:isDefinedBy xml:.
 
   # Build the XML fragment for the node in the XML document depending on its class
-  bind(if(?classXML = xml:Element,                function:getElementFragment($this),
-       if(?classXML = xml:Text ,                  function:getTextFragment($this),
-       if(?classXML = xml:Comment,                function:getCommentFragment($this),
-       if(?classXML = xml:CDATASection,           function:getCDATASectionFragment($this),
-       if(?classXML = xml:ProcessingInstruction,  function:getProcessingInstructionFragment($this),
-       if(?classXML = xml:DocumentType,           function:getDocumentTypeFragment($this),
-       if(?classXML = xml:Document,               function:getChildNodeFragment($this), ?unboundDummy)))))))
-  as ?fragmentString)
-
-  # Convert result from string to rdf:XMLLiteral.
-  bind(strdt(?fragmentString, rdf:XMLLiteral) as ?fragment)
+  values ?undef { undef }
+  bind(strdt(
+    if(?classXML = xml:Element,                function:getElementFragment($this),
+    if(?classXML = xml:Text ,                  function:getTextFragment($this),
+    if(?classXML = xml:Comment,                function:getCommentFragment($this),
+    if(?classXML = xml:CDATASection,           function:getCDATASectionFragment($this),
+    if(?classXML = xml:ProcessingInstruction,  function:getProcessingInstructionFragment($this),
+    if(?classXML = xml:DocumentType,           function:getDocumentTypeFragment($this),
+    if(?classXML = xml:Document,               function:getChildNodeFragment($this),
+    ?undef))))))), rdf:XMLLiteral) as ?fragment)
 }''';
     rdfs:isDefinedBy xml:.
 
@@ -407,35 +405,36 @@ xml: {
     rdfs:comment "Returns a XML fragment for a XML element in a XML document."@en;
     rdfs:isDefinedBy xml:;
     rdfs:label 'getElementFragment';
-    sh:parameter parameter:getElementFragment_elementXML;
+    sh:parameter parameter:getElementFragment_element;
     sh:prefixes xml:;
     sh:returnType xsd:string;
-    sh:select '''select ?result where {
+    sh:select '''select $return {
   # Retrieve the tag name & namespace of the element.
-  $elementXML a ?class.
+  $element a ?class.
   ?class
     xml:tag ?tag;
     rdfs:isDefinedBy ?ontology.
 
   # Get the XML attributes for the element, if there are any.
-  bind(function:getElementAttribute($elementXML, ?ontology) as ?attributes)
+  bind(function:getElementAttribute($element, ?ontology) as ?attributes)
 
   # Get the XML fragments of child nodes for the element, if there are any.
-  bind(function:getChildNodeFragment($elementXML) as ?childFragments)
+  bind(function:getChildNodeFragment($element) as ?childFragments)
 
   # Build the XML fragment for this XML element, by combining everything retrieved above.
   bind(concat(
-    '<',?tag,if(?attributes='','',concat(' ',?attributes)),'>',
-    if(?childFragments='',concat('</',?tag,'>'),concat(?childFragments,'</',?tag,'>'))) as ?fragment)
-  bind(if(bound(?fragment),?fragment,'') as ?result)
+    '<', ?tag, if(?attributes='', '', concat(' ', ?attributes)), '>',
+    if(?childFragments='',
+      concat('</', ?tag, '>'),
+      concat(?childFragments, '</', ?tag, '>'))) as $return)
 }'''.
 
-  parameter:getElementFragment_elementXML
+  parameter:getElementFragment_element
     a sh:Parameter;
     sh:datatype xsd:anyURI;
-    sh:description "A xml element in a XML document."@en;
+    sh:description "A element in a XML document."@en;
     sh:order 1.0;
-    sh:path parameter:elementXML.
+    sh:path parameter:element.
 
   function:getTextFragment
     a sh:SPARQLFunction;
@@ -445,55 +444,51 @@ xml: {
     sh:parameter parameter:getTextFragment_text;
     sh:prefixes xml:;
     sh:returnType xsd:string;
-    sh:select '''select ?result where {
-  # Text is stored in de data attribute of DOM text nodes
+    sh:select '''select $return {
+  # Text is stored in the 'data' attribute of DOM text nodes.
   $text dom:data ?data.
-
-  # Establish the XML fragment for this XML text node
-  bind(strdt(?data,xsd:string) as ?fragment)
-  bind(if(bound(?fragment),?fragment,'') as ?result)
+  # Establish the XML fragment for this XML text node.
+  bind(str(?data) as $return)
 }'''.
 
   parameter:getTextFragment_text
     a sh:Parameter;
     sh:datatype xsd:anyURI;
-    sh:description "A XML text node in a XML document."@en;
+    sh:description "An XML text node in a XML document."@en;
     sh:order 1.0;
     sh:path parameter:text.
 
   function:getCommentFragment
     a sh:SPARQLFunction;
-    rdfs:comment "Returns a XML fragment for a XML comment in a XML document."@en;
+    rdfs:comment "Returns the XML fragment for an XML comment in an XML document."@en;
     rdfs:isDefinedBy xml:;
     rdfs:label 'getCommentFragment';
     sh:parameter parameter:getCommentFragment_comment;
     sh:prefixes xml:;
     sh:returnType xsd:string;
-    sh:select '''select ?result where {
-  # Establish the XML fragment for this XML comment
-  bind(concat('<!--',function:getChildNodeFragment($comment),'-->') as ?fragment)
-  bind(if(bound(?fragment),?fragment,'') as ?result)
+    sh:select '''select $return {
+  # Establish the XML fragment for this XML comment.
+  bind(concat('<!--', function:getChildNodeFragment($comment), '-->') as $return)
 }'''.
 
   parameter:getCommentFragment_comment
     a sh:Parameter;
     sh:datatype xsd:anyURI;
-    sh:description "A XML comment in a XML document."@en;
+    sh:description "An XML comment in an XML document."@en;
     sh:order 1.0;
     sh:path parameter:comment.
 
   function:getCDATASectionFragment
     a sh:SPARQLFunction;
-    rdfs:comment "Returns a XML fragment for a XML CDATA Section in a XML document."@en;
+    rdfs:comment "Returns the XML fragment for the given XML CDATA section in an XML document."@en;
     rdfs:isDefinedBy xml:;
     rdfs:label 'getCDATASectionFragment';
     sh:parameter parameter:getCDATASectionFragment_CDATASection;
     sh:prefixes xml:;
     sh:returnType xsd:string;
-    sh:select '''select ?result where {
-  # Establish the XML fragment for this XML CDATA
-  bind(concat('<![CDATA[',function:getChildNodeFragment($CDATASection),']]>') as ?fragment)
-  bind(if(bound(?fragment),?fragment,'') as ?result)
+    sh:select '''select $return {
+  # Establish the XML fragment for this XML CDATA.
+  bind(concat('<![CDATA[', function:getChildNodeFragment($CDATASection), ']]>') as $return)
 }'''.
 
   parameter:getCDATASectionFragment_CDATASection
@@ -511,10 +506,9 @@ xml: {
     sh:parameter parameter:getProcessingInstructionFragment_processingInstruction;
     sh:prefixes xml:;
     sh:returnType xsd:string;
-    sh:select '''select ?result where {
-  # Establish the XML fragment for this XML processingInstruction
-  bind(concat('<?',function:getChildNodeFragment($processingInstruction),'>') as ?fragment)
-  bind(if(bound(?fragment),?fragment,'') as ?result)
+    sh:select '''select $return {
+  # Establish the XML fragment for this XML processing instruction.
+  bind(concat('<?', function:getChildNodeFragment($processingInstruction), '>') as $return)
 }'''.
 
   parameter:getProcessingInstructionFragment_processingInstruction
@@ -532,11 +526,10 @@ xml: {
     sh:parameter parameter:getDocumentTypeFragment_doctype;
     sh:prefixes xml:;
     sh:returnType xsd:string;
-    sh:select '''select ?result where {
-  # Establish the doctype name for this Document Type.
+    sh:select '''select $return {
+  # Establish the doctype name for this document type.
   $doctype xml:documentTypeName ?name.
-  bind(concat('<!DOCTYPE ',str(?name),'>') as ?fragment)
-  bind(if(bound(?fragment),?fragment,'') as ?result)
+  bind(concat('<!DOCTYPE ', ?name, '>') as $return)
 }'''.
 
   parameter:getDocumentTypeFragment_doctype
@@ -554,9 +547,10 @@ xml: {
     sh:parameter parameter:getDocumentFragment_xmlDocument;
     sh:prefixes xml:;
     sh:returnType xsd:string;
-    sh:select '''select ?result where {
-  # Establish the XML fragment of the XML document by retrieving the XML fragments of all child nodes.
-  bind(function:getChildNodeFragment($xmlDocument) as ?result)
+    sh:select '''select $return {
+  # Establish the XML fragment of the XML document by retrieving the XML
+  # fragments of all child nodes.
+  bind(function:getChildNodeFragment($xmlDocument) as $return)
 }'''.
 
   parameter:getDocumentFragment_xmlDocument
@@ -574,22 +568,22 @@ xml: {
     sh:parameter parameter:getChildNodeFragment_parentNode;
     sh:prefixes xml:;
     sh:returnType xsd:string;
-    sh:select '''select ?result where {
+    sh:select '''select $return {
   optional {
     # Get the XML fragments of child nodes, if there are any.
-    select $parentNode (group_concat(str(?childFragment);separator='') as ?childFragments) {
+    select $parentNode (group_concat(str(?childFragment); separator='') as ?childFragments) {
       {
         select $parentNode ?member ?childFragment {
           $parentNode ?member ?childNode.
-          filter(strstarts(str(?member),concat(str(rdf:),'_')))
+          filter(strstarts(str(?member), concat(str(rdf:), '_')))
           ?childNode xml:fragment ?childFragment.
         }
-        order by xsd:integer(strafter(str(?member),concat(str(rdf:),'_')))
+        order by xsd:integer(strafter(str(?member), concat(str(rdf:), '_')))
       }
     }
     group by $parentNode
   }
-  bind(if(bound(?childFragments),?childFragments,'') as ?result)
+  bind(coalesce(?childFragments, '') as $return)
 }'''.
 
   parameter:getChildNodeFragment_parentNode
@@ -605,40 +599,48 @@ xml: {
     rdfs:isDefinedBy xml:;
     rdfs:label 'getElementAttribute';
     sh:parameter
-      parameter:getElementAttribute_elementXML,
+      parameter:getElementAttribute_element,
       parameter:getElementAttribute_ontology;
     sh:prefixes xml:;
     sh:returnType xsd:string;
-    sh:select '''select ?result where {
+    sh:select '''select $return {
   optional {
     # Get the XML attributes for this element, if there are any.
-    select $elementXML (group_concat(distinct ?attributeFragment) as ?attributesFragment) {
-      $elementXML ?attribute ?value.
+    # Notice that we use the default separator value (SPACE), to separate
+    # consecutive attributes.
+    select $element (group_concat(distinct ?attributeFragment) as ?attributesFragment) {
+      $element ?attribute ?value.
       ?attribute
         a/rdfs:subClassOf* dom:Attribute;
-        ?localName ?key;
-        rdfs:isDefinedBy ?ontologyAttribute.
+        rdfs:isDefinedBy ?ontologyAttribute;
+        ?localName ?key.
       ?ontologyAttribute vann:preferredNamespacePrefix ?prefix.
       ?localName rdfs:subPropertyOf dom:localName.
 
-      # An attribute’s qualified name is its local name if its namespace prefix is null, and its namespace prefix, followed by ":", followed by its local name, otherwise. The namespace prefix is null when the attribute resides in the same namespace as the element. An exception is made for the xml:xmlns attribute.
-      bind(if(?ontologyAttribute = $ontology || ?attribute = xml:xmlns,?key,concat(?prefix,":",?key)) as ?qualifiedName)
+      # An attribute’s qualified name is its local name if its namespace
+      # prefix is null, and its namespace prefix, followed by ':', followed
+      # by its local name, otherwise.  The namespace prefix is null when the
+      # attribute resides in the same namespace as the element.  An exception
+      # is made for the xml:xmlns attribute.
+      bind(if(
+        ?ontologyAttribute = $ontology || ?attribute = xml:xmlns,
+        ?key,
+        concat(?prefix, ':', ?key)) as ?qualifiedName)
 
-      # Establish a key - value pair for the attribute
-      bind(concat(?qualifiedName,'="',str(?value),'"') as ?attributeFragment)
+      # Establish a key/value-pair for the attribute.
+      bind(concat(?qualifiedName, '="', str(?value), '"') as ?attributeFragment)
     }
-    group by $elementXML
+    group by $element
   }
-  # Establish result
-  bind(if(bound(?attributesFragment),?attributesFragment,'') as ?result)
+  bind(coalesce(?attributesFragment, '') as $return)
 }'''.
 
-  parameter:getElementAttribute_elementXML
+  parameter:getElementAttribute_element
     a sh:Parameter;
     sh:datatype xsd:anyURI;
     sh:description "An XML element in an XML document."@en;
     sh:order 1.0;
-    sh:path parameter:elementXML.
+    sh:path parameter:element.
 
   parameter:getElementAttribute_ontology
     a sh:Parameter;
